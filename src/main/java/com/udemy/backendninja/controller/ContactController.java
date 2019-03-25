@@ -1,5 +1,7 @@
 package com.udemy.backendninja.controller;
 
+import java.lang.ProcessBuilder.Redirect;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +30,7 @@ public class ContactController {
 	
 	@GetMapping("/cancel")
 	public String cancel() {
-		return ViewConstants.CONTACTS_VIEW;
+		return "redirect:/contacts/showcontacts";
 	}
 
 	@GetMapping("/contactform")
@@ -38,15 +40,19 @@ public class ContactController {
 	}
 
 	@PostMapping("/addcontact")
-	public ModelAndView addContact(@ModelAttribute(name = "contactModel") ContactModel contactModel,
+	public String addContact(@ModelAttribute(name = "contactModel") ContactModel contactModel,
 									Model model) {
 		LOG.info("METHOD addContact() -- PARAMS: " + contactModel);
+		model.addAttribute("result", 1);
+		contactService.addContact(contactModel);		
+		return "redirect:/contacts/showcontacts";
+	}
+	
+	@GetMapping("showcontacts")
+	public ModelAndView showContacts () {
 		ModelAndView mav = new ModelAndView(ViewConstants.CONTACTS_VIEW);
-		//mav.addObject("contactModel", contactModel);
-		mav.addObject("result", 1);
-		contactService.addContact(contactModel);
-		
+		mav.addObject("contacts", contactService.listAllContacts());
 		return mav;
 	}
-
+	
 }
