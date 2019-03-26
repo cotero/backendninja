@@ -11,4 +11,8 @@ public interface ContactService {
 	
 	public abstract List<ContactModel> listAllContacts();
 	
+	public abstract Contact findContactById(int id);
+	
+	public abstract void removeContact(int id);
+	
 }

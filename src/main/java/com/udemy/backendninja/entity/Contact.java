@@ -26,6 +26,14 @@ public class Contact {
 
 	@Column(name = "city")
 	private String city;
+	
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
 
 	public String getFirstname() {
 		return firstname;
