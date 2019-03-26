@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.udemy.backendninja.constants.ViewConstants;
+import com.udemy.backendninja.entity.Contact;
 import com.udemy.backendninja.model.ContactModel;
 import com.udemy.backendninja.service.ContactService;
 
@@ -33,8 +34,12 @@ public class ContactController {
 	}
 
 	@GetMapping("/contactform")
-	public String redirectContactForm(Model model) {
-		model.addAttribute("contactModel", new ContactModel());
+	public String redirectContactForm(@RequestParam(name="id", required=false) int id, Model model) {		
+		ContactModel contactModel = new ContactModel();
+		if (id!=0) {
+			contactModel = contactService.findContactById(id);
+		}
+		model.addAttribute("contactModel", contactModel);
 		return ViewConstants.CONTACT_FORM_VIEW;
 	}
 
@@ -43,7 +48,9 @@ public class ContactController {
 									Model model) {
 		LOG.info("METHOD addContact() -- PARAMS: " + contactModel);
 		model.addAttribute("result", 1);
-		contactService.addContact(contactModel);		
+		if (contactModel!=null) {
+			contactService.addContact(contactModel);
+		}
 		return "redirect:/contacts/showcontacts";
 	}
 	
