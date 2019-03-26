@@ -10,5 +10,5 @@ import com.udemy.backendninja.entity.User;
 @Repository("userRepository")	
 public interface UserRepository extends JpaRepository<User, Serializable>{
 
-	public abstract User findByUserName(String username);
+	public abstract User findByUsername(String username);
 }

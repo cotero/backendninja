@@ -27,7 +27,7 @@ public class UserService implements UserDetailsService {
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		com.udemy.backendninja.entity.User user = userRepository.findByUserName(username);
+		com.udemy.backendninja.entity.User user = userRepository.findByUsername(username);
 		List<GrantedAuthority> auths = buildAuthorities(user.getUserRole());
 		return buildUser(user, auths);
 	}
